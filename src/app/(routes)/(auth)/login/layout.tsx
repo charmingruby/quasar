@@ -1,6 +1,6 @@
 import { MaxWidthWrapper } from '@/components/ui/max-width-wrapper'
 import { PropsWithChildren } from 'react'
-import { Header } from './_components/header'
+import { Header } from '../_components/header'
 
 export default function AuthLayout({ children }: PropsWithChildren) {
   return (

@@ -9,7 +9,7 @@ export function Multistep({ currentStep, size }: MultistepProps) {
   return (
     <div className="w-full">
       <div className="text-sm text-muted-foreground  font-medium mb-2">
-        Step {currentStep} of {size}
+        Passo {currentStep} de {size}
       </div>
       <div className="w-full flex gap-2">
         {Array.from({ length: size }, (_, i) => i + 1).map((step) => (

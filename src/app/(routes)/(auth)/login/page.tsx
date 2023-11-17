@@ -13,7 +13,7 @@ export default function Login() {
             href="/registrar"
             className="text-primary font-medium hover:underline"
           >
-            Registre para ter uma conta
+            Registre-se
           </Link>
           .
         </small>
