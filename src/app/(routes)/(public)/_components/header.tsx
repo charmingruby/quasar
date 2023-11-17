@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export function Header() {
   return (
-    <header className="fixed bg-background h-16 flex items-center w-full border-b">
+    <header className="fixed bg-background h-16 flex items-center w-full border-b shadow-sm">
       <MaxWidthWrapper>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
