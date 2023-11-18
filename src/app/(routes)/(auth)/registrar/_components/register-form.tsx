@@ -23,24 +23,24 @@ export default function RegisterForm() {
 
       <div>
         <div className="space-y-6">
-          <div className="space-y-3">
+          <div className="space-y-2">
             <Label>Nome completo</Label>
-            <Input placeholder="Seu email" />
+            <Input placeholder="John Doe" />
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             <Label>Email</Label>
-            <Input placeholder="********" />
+            <Input placeholder="example@email.com" />
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             <Label>CPF</Label>
-            <Input placeholder="********" />
+            <Input placeholder="000.000.000-00" />
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             <Label>Telefone</Label>
-            <Input placeholder="********" />
+            <Input placeholder="(32) 9 9999-9999" />
           </div>
         </div>
 

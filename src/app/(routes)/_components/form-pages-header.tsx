@@ -2,7 +2,7 @@ import { MaxWidthWrapper } from '@/components/ui/max-width-wrapper'
 import { Scissors } from 'lucide-react'
 import Link from 'next/link'
 
-export function Header() {
+export function FormPagesHeader() {
   return (
     <header className="h-16 border-b flex items-center fixed w-full bg-background">
       <MaxWidthWrapper>

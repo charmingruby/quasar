@@ -25,12 +25,12 @@ export default function CredentialsForm() {
         <div className="space-y-6">
           <div className="space-y-3">
             <Label>Senha</Label>
-            <Input placeholder="*********" />
+            <Input placeholder="*********" type="password" />
           </div>
 
           <div className="space-y-3">
             <Label>Confirmar senha</Label>
-            <Input placeholder="*********" />
+            <Input placeholder="*********" type="password" />
           </div>
         </div>
 
