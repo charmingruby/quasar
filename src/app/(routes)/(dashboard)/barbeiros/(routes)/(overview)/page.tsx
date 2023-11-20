@@ -1,3 +1,9 @@
+import { DashboardHeading } from '@/components/dashboard-heading'
+
 export default function BarberOverview() {
-  return <div>oi</div>
+  return (
+    <div>
+      <DashboardHeading heading="Visão geral" />
+    </div>
+  )
 }
