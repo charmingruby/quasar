@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { FormScenarioHeading } from '../_components/form-scenario-heading'
 import RegisterForm from './_components/register-form'
+import { FormScenarioHeading } from '@/components/form-scenario-heading'
 
 export default function RegisterPersonalData() {
   return (

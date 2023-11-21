@@ -25,7 +25,7 @@ export function Header() {
               </Button>
             </Link>
 
-            <Link prefetch={false} href="/agendamento">
+            <Link prefetch={false} href="/agendamento/opçoes">
               <Button size="sm">Agendar</Button>
             </Link>
           </div>

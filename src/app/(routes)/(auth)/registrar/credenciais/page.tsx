@@ -1,5 +1,5 @@
+import { FormScenarioHeading } from '@/components/form-scenario-heading'
 import CredentialsForm from './_components/credentials-form'
-import { FormScenarioHeading } from '../../_components/form-scenario-heading'
 
 export default function RegisterCredentials() {
   return (
