@@ -4,6 +4,13 @@ import { MaxWidthWrapper } from '@/components/ui/max-width-wrapper'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ChevronRight } from 'lucide-react'
+import { generateStaticSeo } from '@/components/seo/static'
+
+export const metadata = generateStaticSeo({
+  rawTitle: 'Início',
+  description: 'Barbearia de ponta',
+  hasPrefix: true,
+})
 
 export default function Home() {
   return (

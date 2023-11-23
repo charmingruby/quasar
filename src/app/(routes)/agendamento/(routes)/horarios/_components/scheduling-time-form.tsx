@@ -23,6 +23,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
 
 const FormSchema = z.object({
   dob: z.date({
@@ -58,7 +60,7 @@ export function SchedulingTimeForm() {
           name="dob"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Date of birth</FormLabel>
+              <FormLabel>Data</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -72,7 +74,7 @@ export function SchedulingTimeForm() {
                       {field.value ? (
                         format(field.value, 'PPP')
                       ) : (
-                        <span>Pick a date</span>
+                        <span>Escolher data</span>
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
@@ -90,13 +92,16 @@ export function SchedulingTimeForm() {
                   />
                 </PopoverContent>
               </Popover>
-              <FormDescription>
-                Your date of birth is used to calculate your age.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        <div className="space-y-2">
+          <Label>Alguma observação?</Label>
+          <Input placeholder="Mensagem..." type="time" max="8" />
+        </div>
+
         <Button type="submit">Submit</Button>
       </form>
     </Form>

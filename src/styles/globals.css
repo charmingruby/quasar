@@ -47,4 +47,12 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
   }
+
+  input[type="time"]::-webkit-datetime-edit-ampm-field {
+    display: none;
+  }
+
+  input::-webkit-calendar-picker-indicator {
+    filter: "invert(100%) brightness(100%)";
+  }
 }
