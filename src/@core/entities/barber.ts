@@ -2,17 +2,17 @@ import { User, UserProps } from './user'
 import { UniqueEntityID } from '../core/entities/unique-entity-id'
 import { Optional } from '../types/optional'
 
-export interface CustomerProps extends UserProps {
-  amountOfScheduling: number
+export interface BarberProps extends UserProps {
+  amountOfCounts: number
   userId: UniqueEntityID
 
   createdAt: Date
   updatedAt?: Date
 }
 
-export class Customer extends User<CustomerProps> {
-  get amountOfScheduling(): number {
-    return this.props.amountOfScheduling
+export class Barber extends User<BarberProps> {
+  get amountOfCounts(): number {
+    return this.props.amountOfCounts
   }
 
   get createdAt(): Date {
@@ -23,14 +23,11 @@ export class Customer extends User<CustomerProps> {
     return this.props.updatedAt
   }
 
-  static create(
-    props: Optional<CustomerProps, 'createdAt'>,
-    id: UniqueEntityID,
-  ) {
-    const customer = new Customer(
+  static create(props: Optional<BarberProps, 'createdAt'>, id: UniqueEntityID) {
+    const barber = new Barber(
       { ...props, createdAt: props.createdAt ?? new Date() },
       id,
     )
-    return customer
+    return barber
   }
 }
