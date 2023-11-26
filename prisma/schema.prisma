@@ -9,3 +9,39 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id String @id @default(uuid())
+}
+
+model CustomerAccount {
+  id String @id @default(uuid())
+}
+
+model BarberAccount {
+  id String @id @default(uuid())
+}
+
+model PromoCode {
+  id String @id @default(uuid())
+}
+
+model BarberAvailableTime {
+  id String @id @default(uuid())
+}
+
+model Cut {
+  id String @id @default(uuid())
+}
+
+model CutCategory {
+  id String @id @default(uuid())
+}
+
+model Scheduling {
+  id String @id @default(uuid())
+}
+
+model Transaction {
+  id String @id @default(uuid())
+}

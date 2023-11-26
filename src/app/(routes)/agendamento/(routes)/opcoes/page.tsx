@@ -1,5 +1,5 @@
 import { FormScenarioHeading } from '@/components/form-scenario-heading'
-import SchedulingOptsForm from './_components/scheduling-opts-form'
+import { SchedulingOptsForm } from '../../_components/forms/scheduling-opts-form'
 
 export default function SchedulingOpts() {
   return (

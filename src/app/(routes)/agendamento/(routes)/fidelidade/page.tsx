@@ -1,14 +1,14 @@
 import { FormScenarioHeading } from '@/components/form-scenario-heading'
-import { SchedulingTimeForm } from '../../_components/forms/scheduling-time-form'
+import SchedulingFidelityForm from '../../_components/forms/scheduling-fidelity-form'
 
-export default function SchedulingTime() {
+export default function SchedulingFidelity() {
   return (
     <div className="space-y-6">
       <FormScenarioHeading
         title="Escolha seu horário"
         content={<>Veja o melhor momento para você</>}
       />
-      <SchedulingTimeForm />
+      <SchedulingFidelityForm />
     </div>
   )
 }
