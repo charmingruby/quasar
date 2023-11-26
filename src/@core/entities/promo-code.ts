@@ -3,7 +3,7 @@ import { UniqueEntityID } from '../core/entities/unique-entity-id'
 import { Optional } from '../types/optional'
 
 interface PromoCodeProps {
-  code: string
+  code: UniqueEntityID
   generatedBy: UniqueEntityID
   usedAt?: Date
   createdAt: Date
@@ -11,16 +11,20 @@ interface PromoCodeProps {
 }
 
 export class PromoCode extends Entity<PromoCodeProps> {
-  get code(): string {
+  get code(): UniqueEntityID {
     return this.props.code
   }
 
-  set code(value: string) {
+  set code(value: UniqueEntityID) {
     this.props.code = value
   }
 
   get generatedBy(): UniqueEntityID {
     return this.props.generatedBy
+  }
+
+  set usedAt(value: Date) {
+    this.props.usedAt = value
   }
 
   get usedAt(): Date | undefined {
@@ -35,7 +39,9 @@ export class PromoCode extends Entity<PromoCodeProps> {
     return this.props.updatedAt
   }
 
-  // generateCode(): string {}
+  generateCode() {
+    this.code = new UniqueEntityID()
+  }
 
   isAvailable(): boolean {
     if (this.usedAt === undefined) {

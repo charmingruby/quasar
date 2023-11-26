@@ -4,8 +4,8 @@ import { Optional } from '../types/optional'
 
 export interface BarberAvailableTimeProps {
   userId: UniqueEntityID
-  startAt: string
-  endAt: string
+  startAt: Date
+  endAt: Date
 
   createdAt: Date
   updatedAt?: Date
@@ -16,11 +16,11 @@ export class BarberAvailableTime extends Entity<BarberAvailableTimeProps> {
     return this.props.userId
   }
 
-  get startAt(): string {
+  get startAt(): Date {
     return this.props.startAt
   }
 
-  get endAt(): string | undefined {
+  get endAt(): Date | undefined {
     return this.props.endAt
   }
 
@@ -32,7 +32,7 @@ export class BarberAvailableTime extends Entity<BarberAvailableTimeProps> {
     return this.props.updatedAt
   }
 
-  isAvailable(time: string): boolean {
+  isAvailable(time: Date): boolean {
     if (this.props.startAt < time && this.props.endAt > time) {
       return true
     }

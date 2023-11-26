@@ -6,7 +6,7 @@ interface TransactionProps {
   schedulingId: UniqueEntityID
   amount: number
   createdAt: Date
-  updatedAt: Date
+  updatedAt?: Date
 }
 
 export class Transaction extends Entity<TransactionProps> {

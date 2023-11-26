@@ -56,7 +56,7 @@ export class Scheduling extends Entity<SchedulingProps> {
   }
 
   get scheduledAt(): Date {
-    return this.props.payedAt
+    return this.props.scheduledAt
   }
 
   set scheduledAt(value: Date) {
@@ -71,8 +71,15 @@ export class Scheduling extends Entity<SchedulingProps> {
     return this.props.updatedAt
   }
 
-  private validateSchedule(scheduleDate: Date) {
-    // if(scheduleDate > )
+  validateSchedule(scheduledDate: Date, startAt: Date, endAt: Date) {
+    const lunchStart = new Date('2023-11-23T12:00:00.000Z') // inicio do almoço as 12:00
+    const lunchEnd = new Date('2023-11-23T13:00:00.000Z') // final do almoço as 13:00
+    if (scheduledDate >= startAt && scheduledDate <= endAt) {
+      if (scheduledDate < lunchStart || scheduledDate >= lunchEnd) {
+        return true
+      }
+    }
+    return false
   }
 
   static create(
