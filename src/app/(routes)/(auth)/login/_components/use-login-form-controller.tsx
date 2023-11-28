@@ -17,8 +17,16 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>
 
+interface SignInResponse {
+  error: string | undefined // Error code based on the type of error
+  status: number // HTTP status code
+  ok: boolean // `true` if the signin was successful
+  url: string | null // `null` if there was an error, otherwise URL to redirected to
+}
+
 export function useLoginFormController() {
   const [submitErrors, setSubmitErrors] = useState<string[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -28,23 +36,33 @@ export function useLoginFormController() {
     },
   })
 
-  const { push } = useRouter()
+  const { push, refresh } = useRouter()
 
   const handleFormSubmit = async (formData: FormData) => {
     setSubmitErrors([])
 
-    const result = await signIn('credentials', {
+    setIsLoading(true)
+    signIn('credentials', {
       email: formData.email,
       password: formData.password,
-      callbackUrl: '/',
-      redirect: true,
+      redirect: false,
     })
+      .then((data) => {
+        const res = data as SignInResponse
 
-    if (result?.error) {
-      setSubmitErrors((prevState) => [...prevState, 'Credenciais inválidas.'])
-    }
-
-    // push('/')
+        if (res.ok) {
+          push('/')
+          refresh()
+        } else {
+          setSubmitErrors((prevState) => [
+            ...prevState,
+            'Credenciais inválidas.',
+          ])
+        }
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
 
   const emailFilled = form.watch('email')
@@ -52,5 +70,11 @@ export function useLoginFormController() {
 
   const allTheRequiredFieldsAreFilled = emailFilled && passwordFilled
 
-  return { form, handleFormSubmit, submitErrors, allTheRequiredFieldsAreFilled }
+  return {
+    form,
+    handleFormSubmit,
+    submitErrors,
+    allTheRequiredFieldsAreFilled,
+    isLoading,
+  }
 }

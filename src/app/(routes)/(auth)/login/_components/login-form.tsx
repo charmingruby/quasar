@@ -19,6 +19,7 @@ export function LoginForm() {
     handleFormSubmit,
     allTheRequiredFieldsAreFilled,
     submitErrors,
+    isLoading,
   } = useLoginFormController()
 
   return (
@@ -68,11 +69,9 @@ export function LoginForm() {
             type="submit"
             className="w-full"
             size="lg"
-            disabled={
-              !allTheRequiredFieldsAreFilled || form.formState.isSubmitting
-            }
+            disabled={!allTheRequiredFieldsAreFilled || isLoading}
           >
-            {form.formState.isSubmitting ? (
+            {isLoading ? (
               <Loader />
             ) : (
               <span className="flex items-center gap-1">Entrar</span>
