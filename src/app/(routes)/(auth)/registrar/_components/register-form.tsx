@@ -13,6 +13,8 @@ import { Input } from '@/components/ui/input'
 import { ArrowRight } from 'lucide-react'
 import { useRegisterFormController } from './use-register-form-controller'
 import { Loader } from '@/components/loader'
+import InputMask from 'react-input-mask'
+import { cn } from '@/lib/utils'
 
 export default function RegisterForm() {
   const {
@@ -65,39 +67,65 @@ export default function RegisterForm() {
           <FormField
             control={form.control}
             name="cpf"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>CPF</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="000.000.000-00"
-                    hasError={!!form.formState.errors.cpf}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              const hasError = !!form.formState.errors.cpf
+
+              return (
+                <FormItem className="flex flex-col">
+                  <FormLabel>CPF</FormLabel>
+                  <FormControl>
+                    <InputMask
+                      className={cn(
+                        `${
+                          hasError
+                            ? 'border border-destructive placeholder:text-destructive focus-visible:ring-destructive'
+                            : 'border border-input placeholder:text-muted-foreground focus-visible:ring-ring'
+                        } flex h-10 w-full shadow-sm rounded-md bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`,
+                      )}
+                      mask="999.999.999-99"
+                      maskChar={null}
+                      placeholder="000.000.000-00"
+                      value={field.value}
+                      onChange={(e) => field.onChange(e.target.value)}
+                      onBlur={field.onBlur}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )
+            }}
           />
 
           <FormField
             control={form.control}
             name="phoneNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Telefone</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="(32) 9 9999-9999"
-                    maxLength={15}
-                    type="tel"
-                    hasError={!!form.formState.errors.phoneNumber}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              const hasError = !!form.formState.errors.phoneNumber
+
+              return (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Número de Telefone</FormLabel>
+                  <FormControl>
+                    <InputMask
+                      className={cn(
+                        `${
+                          hasError
+                            ? 'border border-destructive placeholder:text-destructive focus-visible:ring-destructive'
+                            : 'border border-input placeholder:text-muted-foreground focus-visible:ring-ring'
+                        } flex h-10 w-full shadow-sm rounded-md bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50`,
+                      )}
+                      mask="(99) 99999-9999"
+                      maskChar={null}
+                      placeholder="(00) 00000-0000"
+                      value={field.value}
+                      onChange={(e) => field.onChange(e.target.value)}
+                      onBlur={field.onBlur}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )
+            }}
           />
 
           <FormField

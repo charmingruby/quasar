@@ -12,8 +12,14 @@ import { toast } from '@/components/ui/use-toast'
 const formSchema = z.object({
   name: z.string().min(4, 'Nome deve ter no minimo 4 caracteres.').max(32, ''),
   email: z.string().email('Insira um formato válido de email.'),
-  cpf: z.string(),
-  phoneNumber: z.string(),
+  cpf: z
+    .string()
+    .min(14, 'CPF deve ter 11 algarismos.')
+    .max(14, 'CPF deve ter 11 algarismos.'),
+  phoneNumber: z
+    .string()
+    .min(15, 'Número deve ter 11 algarismos.')
+    .max(15, 'Número deve ter 11 algarismos.'),
   password: z.string(),
 })
 
