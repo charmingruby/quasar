@@ -14,13 +14,16 @@ const formSchema = z.object({
   email: z.string().email('Insira um formato válido de email.'),
   cpf: z
     .string()
-    .min(14, 'CPF deve ter 11 algarismos.')
-    .max(14, 'CPF deve ter 11 algarismos.'),
+    .min(14, 'Insira um formato válido de CPF.')
+    .max(14, 'Insira um formato válido de CPF.'),
   phoneNumber: z
     .string()
-    .min(14, 'Número deve ter 11 algarismos.')
-    .max(15, 'Número deve ter 11 algarismos.'),
-  password: z.string(),
+    .min(14, 'Insira um formato válido de número de telefone.')
+    .max(15, 'Insira um formato válido de número de telefone'),
+  password: z
+    .string()
+    .min(8, 'Senha deve ter no minimo 8 caracteres.')
+    .max(20, 'Senha deve ter no máximo 20 caracteres.'),
 })
 
 type FormData = z.infer<typeof formSchema>

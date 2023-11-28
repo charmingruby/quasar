@@ -32,7 +32,11 @@ export function LoginForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Seu email" {...field} />
+                  <Input
+                    placeholder="Seu email"
+                    hasError={!!form.formState.errors.email}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -46,7 +50,12 @@ export function LoginForm() {
               <FormItem>
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
-                  <Input placeholder="***********" type="password" {...field} />
+                  <Input
+                    placeholder="***********"
+                    type="password"
+                    hasError={!!form.formState.errors.password}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -8,8 +8,11 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8, '').max(16, ''),
+  email: z.string().email('Insira um formato válido de email.'),
+  password: z
+    .string()
+    .min(8, 'Senha deve ter no minimo 8 caracteres.')
+    .max(20, 'Senha deve ter no máximo 20 caracteres.'),
 })
 
 type FormData = z.infer<typeof formSchema>
