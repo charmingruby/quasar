@@ -18,7 +18,7 @@ const formSchema = z.object({
     .max(14, 'CPF deve ter 11 algarismos.'),
   phoneNumber: z
     .string()
-    .min(15, 'Número deve ter 11 algarismos.')
+    .min(14, 'Número deve ter 11 algarismos.')
     .max(15, 'Número deve ter 11 algarismos.'),
   password: z.string(),
 })
