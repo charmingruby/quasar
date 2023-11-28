@@ -33,15 +33,15 @@ export function useLoginFormController() {
     const result = await signIn('credentials', {
       email: formData.email,
       password: formData.password,
-      redirect: false,
+      callbackUrl: '/',
+      redirect: true,
     })
 
     if (result?.error) {
       setSubmitErrors((prevState) => [...prevState, 'Credenciais inválidas.'])
-      return
     }
 
-    push('/')
+    // push('/')
   }
 
   const emailFilled = form.watch('email')
