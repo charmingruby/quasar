@@ -1,6 +1,8 @@
+import { Providers } from '@/providers'
 import '@/styles/globals.css'
 import type { Metadata } from 'next'
 import { Chakra_Petch as ChakraPetch, Inter } from 'next/font/google'
+import { Toaster } from '@/components/ui/toaster'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -25,11 +27,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} ${alt.variable} font-sans bg-background text-foreground`}
-      >
-        <main>{children}</main>
-      </body>
+      <Providers>
+        <body
+          className={`${inter.variable} ${alt.variable} font-sans bg-background text-foreground`}
+        >
+          <main>{children}</main>
+          <Toaster />
+        </body>
+      </Providers>
     </html>
   )
 }

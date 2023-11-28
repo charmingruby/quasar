@@ -1,5 +1,12 @@
 import Link from 'next/link'
 import { LoginForm } from './_components/login-form'
+import { generateStaticSeo } from '@/components/seo/static'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = generateStaticSeo({
+  rawTitle: 'Entrar',
+  description: 'Se registre na nossa plataforma.',
+})
 
 export default function Login() {
   return (

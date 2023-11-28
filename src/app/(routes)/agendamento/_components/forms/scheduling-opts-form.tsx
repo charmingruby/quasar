@@ -15,6 +15,8 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { cuts } from '@/data/cuts'
+import { ages } from '@/data/ages'
 
 export function SchedulingOptsForm() {
   const form = useForm()
@@ -43,11 +45,11 @@ export function SchedulingOptsForm() {
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="barba">Barba</SelectItem>
-                  <SelectItem value="raspar">Raspar</SelectItem>
-                  <SelectItem value="cortar">Corte</SelectItem>
-                  <SelectItem value="raspar-barba">Raspar + Barba</SelectItem>
-                  <SelectItem value="corte-barba">Corte + Barba</SelectItem>
+                  {cuts.map(({ name, price, value }) => (
+                    <SelectItem key={name} value={value}>{`${name} - R$${(
+                      price / 100
+                    ).toFixed(2)}`}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -62,9 +64,12 @@ export function SchedulingOptsForm() {
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="criança">Criança</SelectItem>
-                  <SelectItem value="adulto">Adulto</SelectItem>
-                  <SelectItem value="idoso">Idoso</SelectItem>
+                  {ages.map(({ name, value }) => (
+                    <SelectItem
+                      key={name}
+                      value={value}
+                    >{`${name}`}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

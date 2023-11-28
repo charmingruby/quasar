@@ -1,5 +1,12 @@
 import { FormScenarioHeading } from '@/components/form-scenario-heading'
 import { SchedulingTimeForm } from '../../_components/forms/scheduling-time-form'
+import { generateStaticSeo } from '@/components/seo/static'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = generateStaticSeo({
+  rawTitle: 'Agendamento',
+  description: 'Agende seu corte na plataforma.',
+})
 
 export default function SchedulingTime() {
   return (

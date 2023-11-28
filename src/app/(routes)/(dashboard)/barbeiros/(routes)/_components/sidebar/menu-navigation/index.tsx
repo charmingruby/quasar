@@ -11,9 +11,13 @@ export function MenuNavigation() {
   return (
     <nav className="space-y-0.5">
       <NavItem url="/" icon={Home} title="Início" />
-      <NavItem url="/" icon={LayoutDashboard} title="Visão geral" />
-      <NavItem url="/" icon={CalendarDays} title="Agenda" />
-      <NavItem url="/" icon={Users} title="Clientes" />
+      <NavItem url="/barbeiros" icon={LayoutDashboard} title="Visão geral" />
+      <NavItem
+        url="/barbeiros/agendamentos"
+        icon={CalendarDays}
+        title="Agenda"
+      />
+      <NavItem url="/barbeiros/clientes" icon={Users} title="Clientes" />
       <NavItem
         url="/barbeiros/funcionarios"
         icon={ScissorsLineDashed}

@@ -1,6 +1,13 @@
 import Link from 'next/link'
 import RegisterForm from './_components/register-form'
 import { FormScenarioHeading } from '@/components/form-scenario-heading'
+import { Metadata } from 'next'
+import { generateStaticSeo } from '@/components/seo/static'
+
+export const metadata: Metadata = generateStaticSeo({
+  rawTitle: 'Registre-se',
+  description: 'Se registre na nossa plataforma.',
+})
 
 export default function RegisterPersonalData() {
   return (
