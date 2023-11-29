@@ -13,6 +13,14 @@ import {
   TableFooter,
 } from '@/components/ui/table'
 import { Plus, Search } from 'lucide-react'
+import { Metadata } from 'next'
+import { generateStaticSeo } from '@/components/seo/static'
+
+export const metadata: Metadata = generateStaticSeo({
+  rawTitle: 'Dashboard | Funcionários',
+  description: 'Histórico de serviços dos funcionários.',
+  hasPrefix: false,
+})
 
 const invoices = [
   {
