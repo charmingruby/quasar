@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { LogOut } from 'lucide-react'
+import { signOut } from 'next-auth/react'
 
 export function Profile() {
   return (
@@ -15,7 +16,13 @@ export function Profile() {
           gustavodiasa2121@gmail.com
         </span>
       </div>
-      <Button variant="ghost" className="ml-auto p-2 group">
+      <Button
+        variant="ghost"
+        className="ml-auto p-2 group"
+        onClick={() => {
+          signOut({ redirect: true, callbackUrl: '/' })
+        }}
+      >
         <LogOut className="h-5 w-5 text-muted-foreground group-hover:text-destructive" />
       </Button>
     </div>

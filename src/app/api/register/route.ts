@@ -56,6 +56,7 @@ export async function POST(request: NextRequest) {
       email: data.email,
       passwordHash: hashedPassword,
       phoneNumber: data.phoneNumber,
+      cpf: data.cpf,
     },
   })
 
