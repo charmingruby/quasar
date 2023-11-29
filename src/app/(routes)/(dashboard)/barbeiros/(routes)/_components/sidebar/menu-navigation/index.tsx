@@ -21,7 +21,7 @@ export function MenuNavigation() {
       <NavItem
         url="/barbeiros/funcionarios"
         icon={ScissorsLineDashed}
-        title="Barbeiros"
+        title="Funcionários"
       />
     </nav>
   )
