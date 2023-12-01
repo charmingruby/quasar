@@ -3,15 +3,16 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { CellActions } from './cell-actions'
 
-export interface Barber {
+export interface Customer {
   id: string
   fullName: string
   email: string
-  cpf: string
   phoneNumber: string
+  cpf: string
+  amountOfSchedules: number
 }
 
-export const columns: ColumnDef<Barber>[] = [
+export const columns: ColumnDef<Customer>[] = [
   {
     accessorKey: 'fullName',
     header: 'Nome',

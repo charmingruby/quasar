@@ -3,6 +3,7 @@ import '@/styles/globals.css'
 import type { Metadata } from 'next'
 import { Chakra_Petch as ChakraPetch, Inter } from 'next/font/google'
 import { Toaster } from '@/components/ui/toaster'
+import { ModalsProvider } from '@/providers/modals-provider'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -34,6 +35,7 @@ export default function RootLayout({
         >
           <main>{children}</main>
           <Toaster />
+          <ModalsProvider />
         </body>
       </Providers>
     </html>

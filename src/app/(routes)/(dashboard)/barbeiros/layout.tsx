@@ -3,6 +3,10 @@ import { Sidebar } from './(routes)/_components/sidebar'
 import { Metadata } from 'next'
 import { generateStaticSeo } from '@/components/seo/static'
 import { RegisterBarberModal } from '@/components/modals/register-barber-modal'
+import { getServerSession } from 'next-auth'
+import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/route'
+import { SessionType } from '@/@types/session'
+import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = generateStaticSeo({
   rawTitle: 'Dashboard | Visão geral',
@@ -10,7 +14,17 @@ export const metadata: Metadata = generateStaticSeo({
   hasPrefix: false,
 })
 
-export default function BarberLayout({ children }: PropsWithChildren) {
+export default async function BarberLayout({ children }: PropsWithChildren) {
+  const session = (await getServerSession(nextAuthOptions)) as SessionType
+
+  if (!session) {
+    redirect('/login')
+  }
+
+  if (!session.user.isBarber) {
+    redirect('/')
+  }
+
   return (
     <>
       <div className="min-h-screen lg:grid lg:grid-cols-dashboard bg-background">

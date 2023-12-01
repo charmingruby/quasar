@@ -45,10 +45,51 @@ export const nextAuthOptions: NextAuthOptions = {
           return null
         }
 
-        return { id: user.id, email: user.email }
+        const barber = await db.barberAccount.findFirst({
+          where: {
+            userId: user.id,
+          },
+        })
+        const isBarber = !!barber
+
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.fullName,
+          isBarber,
+        }
       },
     }),
   ],
+  callbacks: {
+    session: ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          email: token.email,
+          name: token.name,
+          isBarber: token.isBarber,
+        },
+      }
+    },
+    jwt: async ({ token, user }) => {
+      if (user) {
+        const u = user as unknown as any
+
+        return {
+          ...token,
+          id: u.id,
+          email: u.email,
+          name: u.name,
+          isBarber: u.isBarber,
+        }
+      }
+
+      return token
+    },
+  },
 }
 
 const handler = NextAuth(nextAuthOptions)

@@ -1,12 +1,15 @@
-import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/route'
 import { Button } from '@/components/ui/button'
 import { MaxWidthWrapper } from '@/components/ui/max-width-wrapper'
 import { Scissors, User } from 'lucide-react'
-import { getServerSession } from 'next-auth'
 import Link from 'next/link'
+import { getServerSession } from 'next-auth'
+import { nextAuthOptions } from '@/app/api/auth/[...nextauth]/route'
+import { SessionType } from '@/@types/session'
 
 export async function Header() {
-  const session = await getServerSession(nextAuthOptions)
+  const session = (await getServerSession(nextAuthOptions)) as SessionType
+
+  const isBarber = session?.user.isBarber ?? false
 
   return (
     <header className="fixed bg-background h-16 flex items-center w-full border-b shadow-sm">
@@ -18,7 +21,10 @@ export async function Header() {
           </div>
           <div className="flex items-center gap-2">
             {session ? (
-              <Link prefetch={false} href="/dashboard">
+              <Link
+                prefetch={false}
+                href={isBarber ? '/barbeiros' : '/cliente'}
+              >
                 <Button
                   variant="outline"
                   size="sm"

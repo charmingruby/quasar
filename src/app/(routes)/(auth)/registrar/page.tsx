@@ -20,7 +20,7 @@ export default function RegisterPersonalData() {
             Já possui uma conta?{' '}
             <Link
               prefetch={false}
-              href="/registrar"
+              href="/login"
               className="text-primary font-medium hover:underline"
             >
               Entrar
