@@ -154,7 +154,7 @@ export function DataTable<TData, TValue>({
           disabled={!table.getCanPreviousPage()}
           className="border-border"
         >
-          Previous
+          Voltar
         </Button>
         <Button
           variant="outline"
@@ -163,7 +163,7 @@ export function DataTable<TData, TValue>({
           disabled={!table.getCanNextPage()}
           className="border-border"
         >
-          Next
+          Próxima
         </Button>
       </div>
     </div>

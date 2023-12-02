@@ -1,7 +1,7 @@
 'use client'
 
 import { useRegisterBarberModal } from '@/hooks/use-register-barber-modal-store'
-import { Modal } from '../ui/modals'
+import { Modal } from '../../ui/modals'
 import RegisterBarberForm from './register-barber-form'
 
 export function RegisterBarberModal() {

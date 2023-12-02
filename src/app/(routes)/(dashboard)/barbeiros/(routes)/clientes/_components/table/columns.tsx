@@ -2,6 +2,7 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import { CellActions } from './cell-actions'
+import { FidelityCell } from './fidelity-cell'
 
 export interface Customer {
   id: string
@@ -30,10 +31,12 @@ export const columns: ColumnDef<Customer>[] = [
     header: 'CPF',
   },
   {
+    header: 'Fidelidade',
+    cell: ({ row }) => <FidelityCell data={row.original} />,
+  },
+  {
     id: 'actions',
-
     enableHiding: false,
-
     cell: ({ row }) => <CellActions data={row.original} />,
   },
 ]

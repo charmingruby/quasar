@@ -27,12 +27,13 @@ model User {
 model CustomerAccount {
   id                String   @id @default(uuid())
   userId            String   @unique
-  amountOfSchedules Int?     @default(0)
+  amountOfSchedules Int      @default(0)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  user                User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   promoCodesGenerated PromoCode[]
+  schedulings         Scheduling[]
 }
 
 model BarberAccount {
@@ -41,7 +42,8 @@ model BarberAccount {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  schedulings Scheduling[]
 }
 
 model PromoCode {
@@ -52,25 +54,39 @@ model PromoCode {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  customer CustomerAccount @relation(fields: [createdBy], references: [id])
-}
-
-model BarberAvailableTime {
-  id String @id @default(uuid())
+  customer   CustomerAccount @relation(fields: [createdBy], references: [id])
+  scheduling Scheduling?
 }
 
 model Cut {
-  id String @id @default(uuid())
-}
+  id                             String   @id @default(uuid())
+  name                           String
+  price                          Float
+  age_category                   String
+  timeInAQuarterOfAnHourQuantity Int
+  createdAt                      DateTime @default(now())
+  updatedAt                      DateTime @updatedAt
 
-model CutCategory {
-  id String @id @default(uuid())
+  schedulings Scheduling[]
 }
 
 model Scheduling {
-  id String @id @default(uuid())
-}
+  id     String   @id @default(uuid())
+  date   DateTime
+  time   String
+  endAt  String
+  status String
 
-model Transaction {
-  id String @id @default(uuid())
+  barberAccountId   String
+  customerAccountId String
+  cutId             String
+  promoCodeId       String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  promoCode PromoCode       @relation(fields: [promoCodeId], references: [id])
+  cut       Cut             @relation(fields: [cutId], references: [id])
+  customer  CustomerAccount @relation(fields: [customerAccountId], references: [id])
+  barber    BarberAccount   @relation(fields: [barberAccountId], references: [id])
 }

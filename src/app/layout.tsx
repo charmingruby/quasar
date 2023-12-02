@@ -2,8 +2,8 @@ import { Providers } from '@/providers'
 import '@/styles/globals.css'
 import type { Metadata } from 'next'
 import { Chakra_Petch as ChakraPetch, Inter } from 'next/font/google'
-import { Toaster } from '@/components/ui/toaster'
 import { ModalsProvider } from '@/providers/modals-provider'
+import { Toaster } from 'react-hot-toast'
 
 const inter = Inter({
   subsets: ['latin'],

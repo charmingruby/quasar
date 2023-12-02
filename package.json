@@ -44,6 +44,7 @@
     "react-day-picker": "^8.9.1",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.48.2",
+    "react-hot-toast": "^2.4.1",
     "react-input-mask": "^2.0.4",
     "react-simple-typewriter": "^5.0.1",
     "tailwind-merge": "^2.0.0",

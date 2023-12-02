@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { AxiosError } from 'axios'
 import { api } from '@/lib/axios'
-import { toast } from '@/components/ui/use-toast'
+import toast from 'react-hot-toast'
 
 const formSchema = z.object({
   name: z.string().min(4, 'Nome deve ter no minimo 4 caracteres.').max(32, ''),
@@ -50,9 +50,8 @@ export function useRegisterFormController() {
     try {
       await api.post('/register', formData)
 
-      toast({
-        description: 'Conta criada com sucesso.',
-      })
+      toast.success('Registrado com sucesso.', { position: 'bottom-right' })
+
       push('/')
     } catch (err) {
       if (err instanceof AxiosError) {
