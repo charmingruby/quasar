@@ -1,7 +1,7 @@
 import { FormScenarioHeading } from '@/components/form-scenario-heading'
-import SchedulingFidelityForm from '../../_components/forms/scheduling-fidelity-form'
 import { generateStaticSeo } from '@/components/seo/static'
 import { Metadata } from 'next'
+import { SchedulingFidelityForm } from '../../_components/forms/fidelity/scheduling-fidelity-form'
 
 export const metadata: Metadata = generateStaticSeo({
   rawTitle: 'Agendamento',

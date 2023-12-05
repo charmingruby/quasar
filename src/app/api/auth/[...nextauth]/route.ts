@@ -52,11 +52,22 @@ export const nextAuthOptions: NextAuthOptions = {
         })
         const isBarber = !!barber
 
+        const customer = await db.customerAccount.findFirst({
+          where: {
+            userId: user.id,
+          },
+        })
+
+        if (!customer) {
+          return null
+        }
+
         return {
           id: user.id,
           email: user.email,
           name: user.fullName,
           isBarber,
+          amountOfSchedules: customer.amountOfSchedules,
         }
       },
     }),
@@ -71,6 +82,7 @@ export const nextAuthOptions: NextAuthOptions = {
           email: token.email,
           name: token.name,
           isBarber: token.isBarber,
+          amountOfSchedules: token.amountOfSchedules,
         },
       }
     },
@@ -84,6 +96,7 @@ export const nextAuthOptions: NextAuthOptions = {
           email: u.email,
           name: u.name,
           isBarber: u.isBarber,
+          amountOfSchedules: u.amountOfSchedules,
         }
       }
 

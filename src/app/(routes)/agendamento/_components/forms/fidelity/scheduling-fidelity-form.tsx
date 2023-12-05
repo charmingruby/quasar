@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 
-export default function SchedulingFidelityForm() {
+export function SchedulingFidelityForm() {
   const form = useForm()
   const { push } = useRouter()
 

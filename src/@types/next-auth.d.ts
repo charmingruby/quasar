@@ -6,6 +6,8 @@ declare module 'next-auth' {
       id: string
       email: string
       name: string
+      isBarber: boolean
+      amountOfSchedules: number
     }
   }
 }

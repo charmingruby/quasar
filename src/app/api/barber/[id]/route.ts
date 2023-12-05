@@ -19,7 +19,6 @@ export async function DELETE(req: Request, { params }: ApiProps) {
       { status: 401 },
     )
   }
-  console.log(params)
 
   await db.barberAccount.delete({
     where: {

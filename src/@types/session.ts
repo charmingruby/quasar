@@ -4,5 +4,6 @@ export interface SessionType {
     name: string
     id: string
     isBarber: boolean
+    amountOfSchedules: number
   }
 }

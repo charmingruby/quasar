@@ -47,46 +47,38 @@ model BarberAccount {
 }
 
 model PromoCode {
-  id        String    @id @default(uuid())
-  code      String
-  createdBy String    @unique
-  usedAt    DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id                      String    @id @default(uuid())
+  code                    String
+  generatedOnNSchedulings Int
+  createdBy               String
+  usedAt                  DateTime?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
 
   customer   CustomerAccount @relation(fields: [createdBy], references: [id])
   scheduling Scheduling?
 }
 
-model Cut {
+model Scheduling {
   id                             String   @id @default(uuid())
+  date                           DateTime
+  time                           String
+  endAt                          String
+  status                         String
   name                           String
   price                          Float
   age_category                   String
   timeInAQuarterOfAnHourQuantity Int
-  createdAt                      DateTime @default(now())
-  updatedAt                      DateTime @updatedAt
-
-  schedulings Scheduling[]
-}
-
-model Scheduling {
-  id     String   @id @default(uuid())
-  date   DateTime
-  time   String
-  endAt  String
-  status String
+  observation                    String?
 
   barberAccountId   String
   customerAccountId String
-  cutId             String
-  promoCodeId       String @unique
+  promoCodeId       String? @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  promoCode PromoCode       @relation(fields: [promoCodeId], references: [id])
-  cut       Cut             @relation(fields: [cutId], references: [id])
+  promoCode PromoCode?      @relation(fields: [promoCodeId], references: [id])
   customer  CustomerAccount @relation(fields: [customerAccountId], references: [id])
   barber    BarberAccount   @relation(fields: [barberAccountId], references: [id])
 }

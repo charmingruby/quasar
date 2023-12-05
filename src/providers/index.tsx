@@ -1,9 +1,9 @@
 'use client'
 
-import { UserRegisterContextProvider } from '@/contexts/user-register-context'
 import { PropsWithChildren, useState } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { SessionProvider } from 'next-auth/react'
+import { SchedulingRegisterProvider } from '@/contexts/scheduling-register-context'
 
 export function Providers({ children }: PropsWithChildren) {
   const [queryClient] = useState(() => new QueryClient())
@@ -11,7 +11,7 @@ export function Providers({ children }: PropsWithChildren) {
   return (
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
-        <UserRegisterContextProvider>{children}</UserRegisterContextProvider>
+        <SchedulingRegisterProvider>{children}</SchedulingRegisterProvider>
       </QueryClientProvider>
     </SessionProvider>
   )
