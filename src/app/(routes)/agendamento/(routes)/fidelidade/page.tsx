@@ -12,8 +12,8 @@ export default function SchedulingFidelity() {
   return (
     <div className="space-y-6">
       <FormScenarioHeading
-        title="Escolha seu horário"
-        content={<>Veja o melhor momento para você</>}
+        title="Insira o código"
+        content={<>Aproveite o código e ganhe um desconto</>}
       />
       <SchedulingFidelityForm />
     </div>
