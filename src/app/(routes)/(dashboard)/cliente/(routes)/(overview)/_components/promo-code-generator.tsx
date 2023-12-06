@@ -13,20 +13,30 @@ import { api } from '@/lib/axios'
 
 export function PromoCodeGenerator() {
   const [earlierCode, setEarlierCode] = useState('')
-  useState<boolean>(false)
-
+  const [amountOfSchedules, setAmountOfSchedules] = useState<number>(0)
   const { data } = useSession()
-  const { handlePromoCodeGeneration, isLoading, code } =
-    usePromoCodeController()
+  const { handlePromoCodeGeneration, isLoading } = usePromoCodeController()
+  const { data: session, status } = useSession()
 
-  const { data: session } = useSession()
+  const userId = session?.user.id
 
   const fetchData = useCallback(async () => {
-    const userId = session?.user.id
+    if (status === 'loading') {
+      return null
+    }
 
-    const { data } = await api.post('/promo-code', { userId })
-    setEarlierCode(data.code)
-  }, [session])
+    try {
+      const { data } = await api.get(`/customer/${userId}`)
+
+      setAmountOfSchedules(data.amountOfSchedules)
+
+      const promoCode = await api.post('/promo-code', { userId })
+
+      setEarlierCode(promoCode.data.code)
+    } catch (err) {
+      setEarlierCode('')
+    }
+  }, [status, userId])
 
   useEffect(() => {
     fetchData()
@@ -40,27 +50,34 @@ export function PromoCodeGenerator() {
     )
   }
 
-  const amountOfSchedulings = data.user.amountOfSchedules
+  const amountOfSchedulings = amountOfSchedules
   const amountDone = amountOfSchedulings % 5
 
   let amountOfSchedulesLeft
   let amountDoneChecks
-  if (amountDone === 0) {
-    amountOfSchedulesLeft = 0
-    amountDoneChecks = 5
+
+  if (amountOfSchedules === 0) {
+    amountOfSchedulesLeft = 5
+    amountDoneChecks = 0
   } else {
-    amountOfSchedulesLeft = 5 - amountDone
-    amountDoneChecks = amountDone
+    if (amountDone === 0) {
+      amountOfSchedulesLeft = 0
+      amountDoneChecks = 5
+    } else {
+      amountOfSchedulesLeft = 5 - amountDone
+      amountDoneChecks = amountDone
+    }
   }
 
-  const disableButtonIfNotAMultipleOf5 = amountDone !== 0
+  const disableButtonIfNotAMultipleOf5 =
+    amountOfSchedules === 0 || amountDone !== 0
 
   const handleCopyPromoCode = () => {
-    if (!code) {
+    if (!earlierCode) {
       return
     }
 
-    navigator.clipboard.writeText(code)
+    navigator.clipboard.writeText(earlierCode)
     toast.success('Código de desconto copiado com sucesso.', {
       position: 'bottom-right',
     })

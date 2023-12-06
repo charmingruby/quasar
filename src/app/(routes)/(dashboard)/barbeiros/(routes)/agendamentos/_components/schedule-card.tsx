@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -10,25 +9,39 @@ import {
 import { CalendarDays, Clock } from 'lucide-react'
 import { format } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
+import { SchedulingData } from '../page'
+import { ManagementActions } from './management-actions'
 
-export function ScheduleCard() {
-  const exampleDate = new Date()
-  const formattedDate = format(exampleDate, 'P', { locale: ptBR })
+interface ScheduleCardProps {
+  data: SchedulingData
+}
 
-  const startTime = '11:30'
-  const endTime = '11:45'
+export function ScheduleCard({ data }: ScheduleCardProps) {
+  const formattedDate = format(data.date, 'P', { locale: ptBR })
 
   return (
     <Card>
       <CardHeader>
         <div className="text-muted-foreground text-sm">
-          Nome cliente - Tipo do corte
+          {data.customer.user.fullName} - {data.name}
         </div>
-        <CardTitle className="pt-3">Gustavo Dias</CardTitle>
+        <CardTitle className="pt-3">{data.barber.user.fullName}</CardTitle>
 
         <CardDescription>
           <span>Status:</span>{' '}
-          <span className="text-orange-500">Aguardando</span>
+          <span
+            className={` ${
+              data.status === 'Aguardando'
+                ? 'text-orange-400'
+                : data.status === 'Pago'
+                  ? 'text-emerald-600'
+                  : 'text-red-600'
+            }
+        font-medium
+        `}
+          >
+            {data.status}
+          </span>
         </CardDescription>
       </CardHeader>
 
@@ -43,15 +56,17 @@ export function ScheduleCard() {
           <div className="flex items-center gap-2">
             <Clock className="h-4 w-4 text-primary" />
             <div className="text-sm text-muted-foreground">
-              {startTime}~{endTime}
+              {data.time}~{data.endAt}
             </div>
           </div>
         </div>
       </CardContent>
 
-      <CardFooter className="flex gap-2 justify-end">
-        <Button>Gerenciar</Button>
-      </CardFooter>
+      {data.status === 'Aguardando' && (
+        <CardFooter className="flex gap-2 justify-end">
+          <ManagementActions data={data} />
+        </CardFooter>
+      )}
     </Card>
   )
 }

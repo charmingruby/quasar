@@ -8,7 +8,7 @@ interface OptStepAssignType {
   name: string
 }
 
-interface TimeStepAssignType {
+export interface TimeStepAssignType {
   date: Date
   time: string
   endAt: string

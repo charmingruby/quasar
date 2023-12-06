@@ -33,9 +33,6 @@ export async function POST(req: Request) {
 
   const amountOfSchedules = customerAccount.amountOfSchedules
 
-  console.log(amountOfSchedules)
-  console.log(data.id)
-
   const promoCodeAlreadyGenerated = await db.promoCode.findFirst({
     where: {
       customer: { id: customerAccount.id },
@@ -61,6 +58,7 @@ export async function POST(req: Request) {
       code: hashedCode,
       generatedOnNSchedulings: amountOfSchedules,
     },
+    include: { customer: { select: { amountOfSchedules: true } } },
   })
 
   const response: ResponseType = {

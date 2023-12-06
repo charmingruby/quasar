@@ -9,7 +9,7 @@ interface OverviewProps {
 
 export function Overview({ data }: OverviewProps) {
   return (
-    <ResponsiveContainer width="100%" height={200}>
+    <ResponsiveContainer width="100%" height={340}>
       <BarChart data={data}>
         <XAxis
           dataKey="name"
@@ -23,7 +23,7 @@ export function Overview({ data }: OverviewProps) {
           fontSize={12}
           tickLine={true}
           axisLine={false}
-          tickFormatter={(value) => `${value}`}
+          tickFormatter={(value) => `R$${value}`}
         />
         <Bar dataKey="total" fill="#2563EB" radius={[4, 4, 0, 0]} />
       </BarChart>

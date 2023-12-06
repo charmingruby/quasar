@@ -7,31 +7,31 @@ interface Cut {
 
 export const cuts: Cut[] = [
   {
-    value: 'barba',
+    value: 'Barba',
     name: 'Barba',
     price: 1500,
     amountOfTime: 1,
   },
   {
-    value: 'raspar',
+    value: 'Raspar',
     name: 'Raspar',
     price: 1500,
     amountOfTime: 3,
   },
   {
-    value: 'cortar',
+    value: 'Cortar',
     name: 'Cortar',
     price: 1500,
     amountOfTime: 1,
   },
   {
-    value: 'raspar-barba',
+    value: 'Raspar-Barba',
     name: 'Raspar + Barba',
     price: 1599,
     amountOfTime: 1,
   },
   {
-    value: 'corte-barba',
+    value: 'Corte-Barba',
     name: 'Corte + Barba',
     price: 1500,
     amountOfTime: 1,

@@ -2,18 +2,22 @@
 
 import { Multistep } from '@/components/multistep'
 import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
-import { Label } from '@/components/ui/label'
-import { ArrowRight, CheckCircle, Circle } from 'lucide-react'
-import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { CheckCircle, Circle } from 'lucide-react'
 import { Input } from '@/components/ui/input'
+import { useSchedulingFidelityFormController } from './use-scheduling-fidelity-form-controller'
+import { Loader } from '@/components/loader'
 
 export function SchedulingFidelityForm() {
-  const form = useForm()
-  const { push } = useRouter()
-
-  const handleFormSubmit = () => push('/cliente')
+  const { handleFormSubmit, form, submitErrors } =
+    useSchedulingFidelityFormController()
 
   const amountOfSchedulings = 18
   const amountDone = amountOfSchedulings % 5
@@ -28,13 +32,23 @@ export function SchedulingFidelityForm() {
 
         <div className="mt-8">
           <div className="space-y-6">
-            <div className="space-y-2">
-              <Label>Código promocional</Label>
-              <Input placeholder="Código" />
-            </div>
+            <FormField
+              control={form.control}
+              name="promoCode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Código promocional</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Código" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <div className="flex flex-col">
-              <Label>Fidelidade</Label>
+              <FormLabel>Fidelidade</FormLabel>
               <div className="flex items-center gap-2 mt-4">
                 {Array.from({ length: amountDone }, (_, i) => i + 1).map(
                   (idx) => (
@@ -60,10 +74,21 @@ export function SchedulingFidelityForm() {
             </div>
           </div>
 
-          <div className="w-full mt-10">
-            <Button type="submit" className="w-full" size="lg">
-              Próximo passo <ArrowRight className="h-4 w-4" />
+          <div className="w-full mt-10 space-y-2">
+            <Button
+              type="submit"
+              className="w-full"
+              size="lg"
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? (
+                <Loader />
+              ) : (
+                <span>Finalizar</span>
+              )}
             </Button>
+
+            {submitErrors && <FormMessage>{submitErrors}</FormMessage>}
           </div>
         </div>
       </form>

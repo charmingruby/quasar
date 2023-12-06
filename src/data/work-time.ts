@@ -10,11 +10,11 @@ interface WorkTimeMinute {
 export const workTimeHours: WorkTimeHour[] = [
   {
     available: true,
-    value: '8',
+    value: '08',
   },
   {
     available: true,
-    value: '9',
+    value: '09',
   },
   {
     available: true,

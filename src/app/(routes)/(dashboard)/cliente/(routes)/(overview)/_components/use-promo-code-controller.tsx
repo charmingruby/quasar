@@ -26,14 +26,22 @@ export function usePromoCodeController() {
 
       const userId = session?.user.id
 
-      const { data } = await api.post('/promo-code/generate', { id: userId })
+      const { data } = await api.post('/promo-code/generate', {
+        id: userId,
+      })
 
       const result = data as ResponseType
+
+      if (result === null) {
+        return setCode(null)
+      }
 
       setCode(result.code)
 
       toast.success('Código gerado.')
     } catch (err) {
+      console.error(err)
+
       if (err instanceof AxiosError) {
         const errMsg = err.response?.data.message
         toast.error(errMsg, { position: 'bottom-right' })

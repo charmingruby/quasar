@@ -3,11 +3,14 @@ import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { z } from 'zod'
 import { cuts } from '@/data/cuts'
-import { SchedulingRegisterContext } from '@/contexts/scheduling-register-context'
+import {
+  SchedulingRegisterContext,
+  TimeStepAssignType,
+} from '@/contexts/scheduling-register-context'
 import { useContext, useState } from 'react'
 import add from 'date-fns/add'
-import { clearDate, getParamsFromADate } from '@/utils/get-params-from-a-date'
 import { api } from '@/lib/axios'
+import { status } from '@/data/status'
 
 interface UserType {
   fullName: string
@@ -31,25 +34,30 @@ interface BarberType {
 interface TimeToCompare {
   initial: string
   end: string
+  date: Date
 }
 
 const formSchema = z.object({
   date: z.date({
-    required_error: 'A date of birth is required.',
+    required_error: 'Preencha a data de agendamento.',
   }),
-  hours: z.string().min(1),
-  minutes: z.string().min(1),
+  hours: z.string().min(1, 'Preencha as horas.'),
+  minutes: z.string().min(1, 'Preencha os minutos.'),
+  barber: z.string().optional(),
 })
 
 type FormData = z.infer<typeof formSchema>
 
 export function useSchedulingTimeFormController() {
   const [barbers, setBarbers] = useState<BarberType[]>([])
-  const [timeValidation, setTimeValidation] = useState<boolean>(false)
+  const [timeValidation, setTimeValidation] = useState<boolean>(true)
+  const [validSchedule, setValidSchedule] = useState<boolean>(false)
+  const [availabilityError, setAvailabilityError] = useState<string>('')
   const { getData } = useContext(SchedulingRegisterContext)
+  const { timeAssignData } = useContext(SchedulingRegisterContext)
+  const [endAt, setEndAt] = useState<string>('')
 
   const { name } = getData()
-
   const filteredCut = cuts.filter((props) => props.value === name)
   const cutPeriod = filteredCut[0]?.amountOfTime * 15
 
@@ -58,20 +66,40 @@ export function useSchedulingTimeFormController() {
     defaultValues: {
       date: undefined,
       hours: '',
-      minutes: '',
+      minutes: '00',
     },
   })
+
   const { push } = useRouter()
 
-  const handleFormSubmit = (data: FormData) => {
-    console.log(data)
+  const barberFilled = form.watch('barber')
+
+  const handleFormSubmit = ({ date, hours, minutes, barber }: FormData) => {
+    if (!barber) {
+      return null
+    }
+
+    const filteredCut = cuts.filter((props) => props.value === name)
+    const cutPeriod = filteredCut[0]?.amountOfTime
+
+    const dataToAssign: TimeStepAssignType = {
+      barberId: String(barber),
+      status: status[0],
+      date,
+      timeInAQuarterOfAnHourQuantity: cutPeriod,
+      endAt,
+      price: Number((filteredCut[0].price / 100).toFixed(2)),
+      time: `${hours}:${minutes}`,
+    }
+
+    timeAssignData(dataToAssign)
+
+    push('/agendamento/fidelidade')
   }
 
   const getBarbersData = async () => {
     const { data } = await api.get('/scheduling')
-
     const barbers = data as BarberType[]
-
     return barbers
   }
 
@@ -80,47 +108,78 @@ export function useSchedulingTimeFormController() {
 
     const barbers = await getBarbersData()
 
-    const { hours, minutes } = getParamsFromADate('11:20')
-    const initialDate = new Date()
-    initialDate.setHours(hours, minutes, 0, 0)
-    const initialDateConverted = initialDate.toLocaleString('pt-BR')
+    const initialTime = `${data.hours}:${data.minutes}`
+
+    const initialDate = add(data.date, {
+      hours: Number(data.hours),
+      minutes: Number(data.minutes),
+    })
 
     const endDate = add(initialDate, {
       minutes: cutPeriod,
     })
 
-    const endDateConverted = endDate.toLocaleString('pt-BR')
+    const endDateMinutesFormatted =
+      endDate.getMinutes() === 0 ? '00' : String(endDate.getMinutes())
 
-    const clearEndDate = clearDate(endDateConverted)
+    const endTime = endDate.getHours() + ':' + endDateMinutesFormatted
 
-    filterBarbers(barbers, data.date, initialDateConverted, clearEndDate)
+    setEndAt(endTime)
+
+    filterBarbers(barbers, initialDate, initialTime, endTime)
   }
 
   function beetwenInterval(to: TimeToCompare, verify: TimeToCompare) {
-    return to.initial <= verify.initial && to.initial >= verify.end
+    return (
+      to.initial <= verify.initial &&
+      to.initial >= verify.end &&
+      sameDay(to.date, verify.date)
+    )
   }
 
   function overflowInterval(to: TimeToCompare, verify: TimeToCompare) {
     return (
       to.initial <= verify.initial &&
       to.end >= verify.initial &&
-      to.end <= verify.end
+      to.end <= verify.end &&
+      sameDay(to.date, verify.date)
     )
   }
 
   function underflowInterval(to: TimeToCompare, verify: TimeToCompare) {
-    return to.initial >= verify.initial && to.initial >= verify.end
+    return (
+      to.initial >= verify.initial &&
+      to.initial <= verify.end &&
+      sameDay(to.date, verify.date)
+    )
   }
 
-  // function sameDay(toDate: Date, verifyDate: Date) {}
+  function sameDay(toDate: Date, verifyDate: Date) {
+    return (
+      toDate.getFullYear() === verifyDate.getFullYear() &&
+      toDate.getMonth() === verifyDate.getMonth() &&
+      toDate.getDay() === verifyDate.getDay()
+    )
+  }
 
-  function lunchInterval(to: TimeToCompare) {
+  function commercialInterval(to: TimeToCompare) {
     const lunch: TimeToCompare = {
       initial: '12:00',
       end: '14:00',
+      date: new Date(),
     }
 
-    return to.initial >= lunch.initial && to.end <= lunch.end
+    const businessEnd: TimeToCompare = {
+      initial: '18:00',
+      end: '8:00',
+      date: new Date(),
+    }
+
+    return (
+      (to.initial > lunch.initial && to.end < lunch.end) ||
+      (to.initial < lunch.initial && to.end > lunch.initial) ||
+      to.end > businessEnd.initial
+    )
   }
 
   const filterBarbers = (
@@ -133,34 +192,51 @@ export function useSchedulingTimeFormController() {
     const toInterval: TimeToCompare = {
       initial: initialTime,
       end: endTime,
+      date,
+    }
+
+    setValidSchedule(false)
+
+    if (commercialInterval(toInterval)) {
+      setAvailabilityError('Horário em conflito com pausas comerciais.')
+      setValidSchedule(false)
+      return
     }
 
     barbers.forEach((barber) => {
+      if (barber.schedulings.length === 0) {
+        availableBarbers.push(barber)
+        setValidSchedule(true)
+        setTimeValidation(false)
+      }
+
       barber.schedulings.forEach((scheduling) => {
         const verifyInterval: TimeToCompare = {
           initial: scheduling.time,
           end: scheduling.endAt,
+          date: add(new Date(scheduling.date), {
+            hours: 14,
+            minutes: 30,
+          }),
         }
 
-        console.log('BETWEEN', beetwenInterval(toInterval, verifyInterval))
-        console.log('UNDERFLOW', underflowInterval(toInterval, verifyInterval))
-        console.log('OVERFLOW', overflowInterval(toInterval, verifyInterval))
-        console.log('LUNCH', lunchInterval(toInterval))
-
         const isIntervalInvalid =
-          beetwenInterval(toInterval, verifyInterval) &&
-          underflowInterval(toInterval, verifyInterval) &&
-          overflowInterval(toInterval, verifyInterval) &&
-          lunchInterval(toInterval)
+          beetwenInterval(toInterval, verifyInterval) ||
+          underflowInterval(toInterval, verifyInterval) ||
+          overflowInterval(toInterval, verifyInterval)
 
         if (!isIntervalInvalid) {
           availableBarbers.push(barber)
-          console.log(scheduling)
-        } else {
-          console.log('oi')
+          setAvailabilityError('')
+          setValidSchedule(true)
+          setTimeValidation(false)
         }
       })
     })
+
+    if (availableBarbers.length === 0) {
+      setAvailabilityError('Horário indisponível.')
+    }
 
     setBarbers(availableBarbers)
   }
@@ -169,9 +245,11 @@ export function useSchedulingTimeFormController() {
     handleFormSubmit,
     form,
     cutPeriod,
-    getBarbersData,
     barbers,
     timeValidation,
     handleTimeChoose,
+    validSchedule,
+    availabilityError,
+    barberFilled,
   }
 }

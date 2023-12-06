@@ -41,13 +41,16 @@ export function SchedulingTimeForm() {
     barbers,
     timeValidation,
     handleTimeChoose,
+    availabilityError,
+    validSchedule,
+    barberFilled,
   } = useSchedulingTimeFormController()
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(
-          timeValidation ? handleFormSubmit : handleTimeChoose,
+          timeValidation ? handleTimeChoose : handleFormSubmit,
         )}
       >
         <div>
@@ -193,38 +196,61 @@ export function SchedulingTimeForm() {
               </div>
             </div>
 
-            {timeValidation && (
-              <div className="space-y-2">
-                <Label>Barbeiros</Label>
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue
-                      placeholder="Escolher barbeiro"
-                      className="text-muted-foreground"
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {barbers.map(({ user: { fullName }, id }) => (
-                      <SelectItem key={id} value={id}>
-                        {fullName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            {validSchedule && (
+              <FormField
+                control={form.control}
+                name="barber"
+                render={({ field }) => (
+                  <FormItem>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue
+                            placeholder="Escolher barbeiro"
+                            className="text-muted-foreground"
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+
+                      <SelectContent>
+                        {barbers.map(({ user: { fullName }, id }) => (
+                          <SelectItem key={id} value={id}>
+                            {fullName}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             )}
           </div>
 
-          <div className="w-full mt-10">
-            <Button className="w-full" size="lg" type="submit">
-              {timeValidation ? (
+          <div className="w-full mt-10 space-y-2">
+            {validSchedule ? (
+              <Button
+                className="w-full"
+                size="lg"
+                type="submit"
+                disabled={!barberFilled}
+              >
                 <span className="flex items-center gap-1">
                   Próximo passo <ArrowRight className="h-4 w-4" />
                 </span>
-              ) : (
+              </Button>
+            ) : (
+              <Button className="w-full" size="lg" type="submit">
                 <span>Verificar disponibilidade</span>
-              )}
-            </Button>
+              </Button>
+            )}
+
+            {availabilityError && (
+              <FormMessage>{availabilityError}</FormMessage>
+            )}
           </div>
         </div>
       </form>

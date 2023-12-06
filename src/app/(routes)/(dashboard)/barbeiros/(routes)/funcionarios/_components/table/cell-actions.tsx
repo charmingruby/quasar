@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useDeleteBarberModal } from '@/hooks/use-delete-barber-modal-store'
+import { useBarberScheduleModal } from '@/hooks/use-barber-schedule-modal-store'
 
 interface CellActionsProps {
   data: Barber
@@ -24,9 +25,15 @@ interface CellActionsProps {
 
 export function CellActions({ data }: CellActionsProps) {
   const useDeleteBarberStore = useDeleteBarberModal()
+  const useBarberScheduleStore = useBarberScheduleModal()
 
   const handleButtonClick = () => {
     navigator.clipboard.writeText(data.email)
+  }
+
+  const handleShowBarberSchedule = () => {
+    useBarberScheduleStore.setBarberId(data.id)
+    useBarberScheduleStore.onOpen()
   }
 
   const handleBarberDelete = () => {
@@ -53,7 +60,12 @@ export function CellActions({ data }: CellActionsProps) {
             Copiar email
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="flex items-center gap-2">
+          <DropdownMenuItem
+            className="flex items-center gap-2"
+            onClick={() => {
+              handleShowBarberSchedule()
+            }}
+          >
             <CalendarDays className="h-3 w-3 text-muted-foreground mb-0.5" />
             Agenda
           </DropdownMenuItem>

@@ -10,7 +10,10 @@ import { api } from '@/lib/axios'
 import toast from 'react-hot-toast'
 
 const formSchema = z.object({
-  name: z.string().min(4, 'Nome deve ter no minimo 4 caracteres.').max(32, ''),
+  name: z
+    .string()
+    .min(4, 'Nome deve ter no minimo 4 caracteres.')
+    .max(32, 'Nome deve ter no minimo 32 caracteres.'),
   email: z.string().email('Insira um formato válido de email.'),
   cpf: z
     .string()
