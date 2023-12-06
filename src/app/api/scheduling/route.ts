@@ -98,7 +98,8 @@ export async function POST(req: Request) {
 
   const usefulPromoCodes = validInsertedPromoCode?.id || unusedPromoCode[0]?.id
 
-  const freeScheduling = customer.amountOfSchedules % 5 === 0
+  const freeScheduling =
+    customer.amountOfSchedules % 5 === 0 && customer.amountOfSchedules !== 0
 
   const result = await db.scheduling.create({
     data: {

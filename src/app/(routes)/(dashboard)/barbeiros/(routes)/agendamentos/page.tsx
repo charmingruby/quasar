@@ -2,7 +2,6 @@ import { DashboardHeading } from '@/components/dashboard-heading'
 import { Separator } from '@/components/ui/separator'
 import { Metadata } from 'next'
 import { generateStaticSeo } from '@/components/seo/static'
-import { ScheduleCard } from './_components/schedule-card'
 import { db } from '@/lib/prisma'
 import { ScheduleManagement } from './_components/schedule-management'
 
@@ -67,8 +66,6 @@ async function getSchedulingsData() {
 
 export default async function Customers() {
   const data = await getSchedulingsData()
-
-  console.log(data)
 
   return (
     <div>

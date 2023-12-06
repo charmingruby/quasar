@@ -56,7 +56,7 @@ export function SchedulingsManagement({ data }: SchedulingsManagementProps) {
               <CardHeader>
                 <div className="flex items-center gap-2">
                   <CardTitle>{name}</CardTitle>
-                  <Status status={status as 'Aguardando' | 'Pago'} />
+                  <Status status={status} />
                 </div>
 
                 {promoCodeId && (
@@ -109,12 +109,12 @@ export function SchedulingsManagement({ data }: SchedulingsManagementProps) {
                   )}
                 </div>
 
-                {status !== 'Pago' && (
+                {status === status[0] && (
                   <Button
                     variant="destructive"
                     onClick={() => {
                       closeScheduleModal.setSchedulingId(id)
-                      closeScheduleModal.setStatus(status[2])
+                      closeScheduleModal.setStatus('Desmarcado')
                       closeScheduleModal.onOpen()
                     }}
                   >

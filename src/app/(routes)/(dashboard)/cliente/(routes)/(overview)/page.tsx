@@ -41,7 +41,9 @@ export default async function CustomerOverview() {
       },
     })
 
-    return format(schedulings[0].date, 'P', { locale: ptBR })
+    return schedulings.length === 0
+      ? 'Nada registrado'
+      : format(schedulings[0].date, 'P', { locale: ptBR })
   }
 
   async function getTheFiveLatestSchedulings(customerId: string) {

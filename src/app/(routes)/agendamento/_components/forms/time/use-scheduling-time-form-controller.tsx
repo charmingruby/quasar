@@ -225,7 +225,7 @@ export function useSchedulingTimeFormController() {
           underflowInterval(toInterval, verifyInterval) ||
           overflowInterval(toInterval, verifyInterval)
 
-        if (!isIntervalInvalid) {
+        if (!isIntervalInvalid && !availableBarbers.includes(barber)) {
           availableBarbers.push(barber)
           setAvailabilityError('')
           setValidSchedule(true)
