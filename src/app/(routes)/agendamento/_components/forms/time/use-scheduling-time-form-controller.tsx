@@ -129,27 +129,12 @@ export function useSchedulingTimeFormController() {
     filterBarbers(barbers, initialDate, initialTime, endTime)
   }
 
-  function beetwenInterval(to: TimeToCompare, verify: TimeToCompare) {
+  function NaoValidaEntre(to: TimeToCompare, verify: TimeToCompare) {
     return (
-      to.initial <= verify.initial &&
-      to.initial >= verify.end &&
-      sameDay(to.date, verify.date)
-    )
-  }
-
-  function overflowInterval(to: TimeToCompare, verify: TimeToCompare) {
-    return (
-      to.initial <= verify.initial &&
-      to.end >= verify.initial &&
-      to.end <= verify.end &&
-      sameDay(to.date, verify.date)
-    )
-  }
-
-  function underflowInterval(to: TimeToCompare, verify: TimeToCompare) {
-    return (
-      to.initial >= verify.initial &&
-      to.initial <= verify.end &&
+      ((to.initial <= verify.initial && to.end >= verify.end) ||
+        (to.initial <= verify.initial && to.end <= verify.end) ||
+        (to.initial >= verify.initial && to.end <= verify.end) ||
+        (to.initial >= verify.initial && to.initial < verify.end)) &&
       sameDay(to.date, verify.date)
     )
   }
@@ -171,8 +156,16 @@ export function useSchedulingTimeFormController() {
 
     const businessEnd: TimeToCompare = {
       initial: '18:00',
-      end: '8:00',
+      end: '08:00',
       date: new Date(),
+    }
+
+    if (to.end.length === 4) {
+      to.end = '0' + to.end
+    }
+
+    if (to.initial.length === 4) {
+      to.end = '0' + to.end
     }
 
     return (
@@ -220,10 +213,7 @@ export function useSchedulingTimeFormController() {
           }),
         }
 
-        const isIntervalInvalid =
-          beetwenInterval(toInterval, verifyInterval) ||
-          underflowInterval(toInterval, verifyInterval) ||
-          overflowInterval(toInterval, verifyInterval)
+        const isIntervalInvalid = NaoValidaEntre(toInterval, verifyInterval)
 
         if (!isIntervalInvalid && !availableBarbers.includes(barber)) {
           availableBarbers.push(barber)
