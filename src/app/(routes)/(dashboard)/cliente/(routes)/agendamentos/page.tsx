@@ -41,7 +41,7 @@ export interface SchedulingData {
   }
 }
 
-export async function getSchedulingsData() {
+async function getSchedulingsData() {
   const session = await getServerSession(nextAuthOptions)
 
   if (!session) return []

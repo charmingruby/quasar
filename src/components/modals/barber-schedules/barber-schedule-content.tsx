@@ -31,7 +31,7 @@ export function BarberScheduleContent() {
   }
 
   return (
-    <div className="Gap-2w-full flex flex-col items-center">
+    <div className="gap-2 w-full flex flex-col items-center">
       {schedulings.length === 0 ? (
         <div className="">
           <small className="text-muted-foreground text-center">
@@ -39,7 +39,7 @@ export function BarberScheduleContent() {
           </small>
         </div>
       ) : (
-        <div>
+        <div className="w-full space-y-4">
           {schedulings.map((props) => (
             <Card key={`${props.time}${props.date}`}>
               <CardHeader>

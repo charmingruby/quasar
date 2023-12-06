@@ -42,7 +42,7 @@ model BarberAccount {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User?        @relation(fields: [userId], references: [id])
   schedulings Scheduling[]
 }
 
@@ -73,7 +73,7 @@ model Scheduling {
   observation                    String?
   free                           Boolean? @default(false)
 
-  barberAccountId   String
+  barberAccountId   String?
   customerAccountId String
   promoCodeId       String? @unique
 
@@ -82,5 +82,5 @@ model Scheduling {
 
   promoCode PromoCode?      @relation(fields: [promoCodeId], references: [id])
   customer  CustomerAccount @relation(fields: [customerAccountId], references: [id])
-  barber    BarberAccount   @relation(fields: [barberAccountId], references: [id])
+  barber    BarberAccount?  @relation(fields: [barberAccountId], references: [id], onDelete: SetNull)
 }

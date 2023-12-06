@@ -25,7 +25,11 @@ export function ScheduleCard({ data }: ScheduleCardProps) {
         <div className="text-muted-foreground text-sm">
           {data.customer.user.fullName} - {data.name}
         </div>
-        <CardTitle className="pt-3">{data.barber.user.fullName}</CardTitle>
+        <CardTitle className="pt-3">
+          {data.barber?.user.fullName
+            ? data.barber.user.fullName
+            : 'Ex-funcionário'}
+        </CardTitle>
 
         <CardDescription>
           <span>Status:</span>{' '}

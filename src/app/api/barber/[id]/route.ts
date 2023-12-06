@@ -20,11 +20,17 @@ export async function DELETE(req: Request, { params }: ApiProps) {
     )
   }
 
-  await db.barberAccount.delete({
+  const userId = params.id
+
+  console.log(userId)
+
+  const barber = await db.barberAccount.delete({
     where: {
-      userId: params.id,
+      userId,
     },
   })
+
+  console.log(barber)
 
   return new Response(null, { status: 204 })
 }
