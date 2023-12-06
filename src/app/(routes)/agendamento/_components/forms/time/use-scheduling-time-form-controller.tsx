@@ -130,13 +130,14 @@ export function useSchedulingTimeFormController() {
   }
 
   function NaoValidaEntre(to: TimeToCompare, verify: TimeToCompare) {
-    return (
-      ((to.initial <= verify.initial && to.end >= verify.end) ||
-        (to.initial <= verify.initial && to.end <= verify.end) ||
-        (to.initial >= verify.initial && to.end <= verify.end) ||
-        (to.initial >= verify.initial && to.initial < verify.end)) &&
-      sameDay(to.date, verify.date)
-    )
+    const isInvalid =
+      (to.initial <= verify.initial && to.end <= verify.end) ||
+      (to.initial >= verify.initial && to.end <= verify.end) ||
+      (to.initial >= verify.initial &&
+        to.end >= verify.end &&
+        to.initial < verify.end)
+
+    return isInvalid && sameDay(to.date, verify.date)
   }
 
   function sameDay(toDate: Date, verifyDate: Date) {
@@ -214,6 +215,7 @@ export function useSchedulingTimeFormController() {
         }
 
         const isIntervalInvalid = NaoValidaEntre(toInterval, verifyInterval)
+        console.log(isIntervalInvalid)
 
         if (!isIntervalInvalid && !availableBarbers.includes(barber)) {
           availableBarbers.push(barber)
