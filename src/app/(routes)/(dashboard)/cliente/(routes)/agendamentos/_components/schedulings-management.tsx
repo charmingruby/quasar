@@ -109,7 +109,7 @@ export function SchedulingsManagement({ data }: SchedulingsManagementProps) {
                   )}
                 </div>
 
-                {status === status[0] && (
+                {status === 'Aguardando' && (
                   <Button
                     variant="destructive"
                     onClick={() => {

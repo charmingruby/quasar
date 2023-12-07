@@ -68,7 +68,9 @@ async function getSchedulingsData() {
     },
   })
 
-  const schedulings = data as SchedulingData[]
+  const schedulings = data.filter(
+    ({ barberAccountId }) => barberAccountId !== null,
+  ) as SchedulingData[]
 
   return schedulings.length === 0 ? [] : schedulings
 }
