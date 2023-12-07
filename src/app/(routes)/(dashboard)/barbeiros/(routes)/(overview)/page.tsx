@@ -22,7 +22,7 @@ interface SchedulingData {
   timeInAQuarterOfAnHourQuantity: number
   observation: string | null
   free: boolean | null
-  barberAccountId: string
+  barberAccountId: string | null
   customerAccountId: string
   customer: {
     user: {
@@ -57,8 +57,8 @@ export default async function BarberOverview() {
 
     let totalInvoicing = 0
 
-    schedulings.forEach(({ date, free, promoCodeId, price }) => {
-      if (date.getMonth() === currentMonth) {
+    schedulings.forEach(({ date, free, promoCodeId, price, status }) => {
+      if (date.getMonth() === currentMonth && status === 'Pago') {
         totalInvoicing += free ? 0 : promoCodeId ? price * 0.85 : price
       }
     })
@@ -116,7 +116,10 @@ export default async function BarberOverview() {
     for (let i = 0; totalAwaiting < 5 && i < schedulings.length; i++) {
       const scheduling = schedulings[i]
 
-      if (scheduling.status === 'Aguardando') {
+      if (
+        scheduling.status === 'Aguardando' &&
+        scheduling.barberAccountId !== null
+      ) {
         awaitingSchedules.push(scheduling)
         totalAwaiting++
       }
@@ -128,7 +131,9 @@ export default async function BarberOverview() {
   async function getChartData() {
     const data = await db.scheduling.findMany()
 
-    return data
+    const filteredData = data.filter(({ status }) => status === 'Pago')
+
+    return filteredData
   }
 
   const totalCutsInTheCurrentMonth = await getTotalCutsInTheCurrentMonth()

@@ -10,7 +10,7 @@ interface Data {
   timeInAQuarterOfAnHourQuantity: number
   observation: string | null
   free: boolean | null
-  barberAccountId: string
+  barberAccountId: string | null
   customerAccountId: string
   promoCodeId: string | null
   createdAt: Date
